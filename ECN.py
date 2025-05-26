@@ -1,3 +1,7 @@
+#Flask Application
+
+#This will define the main structure of the application.
+
 from flask import Flask, render_template, redirect, url_for, request, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
@@ -17,6 +21,10 @@ login_manager.login_view = 'login'
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+#Database Models
+
+#We create User, Savings, and Loan models using SQLAlchemy.
+
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(150), nullable=False)
@@ -35,6 +43,8 @@ class Loan(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     amount = db.Column(db.Float, nullable=False)
     status = db.Column(db.String(50), default="pending")  # pending, approved, rejected
+
+#Route for User action
 
 from flask import request
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -79,6 +89,8 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
+#Register page
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -97,6 +109,9 @@ def logout():
     </div>
 </body>
 </html>
+
+#Dashboard
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -124,6 +139,8 @@ def logout():
     </div>
 </body>
 </html>
+
+#Running the app
 
 if __name__ == '__main__':
     with app.app_context():
