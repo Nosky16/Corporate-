@@ -7,23 +7,23 @@ from functools import wraps
 
 # Initialize the Flask application
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'  # Replace with a strong secret key in production
-DATABASE = 'ecn_coop.db'  # SQLite database file
+app.secret_key = 'your_secret_key'
+DATABASE = 'ecn_coop.db'
 
-# Connect to the database
+# Connect to SQLite database
 def get_db():
     if 'db' not in g:
         g.db = sqlite3.connect(DATABASE)
     return g.db
 
-# Close the database connection after each request
+# Close DB connection after each request
 @app.teardown_appcontext
 def close_db(error):
     db = g.pop('db', None)
     if db:
         db.close()
 
-# Decorator to ensure the user is logged in
+# Restrict access to logged-in users
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -32,10 +32,27 @@ def login_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
-# Redirect the root URL to login
+# Redirect root to login
 @app.route('/')
 def index():
     return redirect('/login')
+
+# User registration route
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        name = request.form['name']
+        is_admin = int(request.form.get('is_admin', 0))  # Default to 0 (staff)
+        db = get_db()
+        # Check if user already exists
+        cursor = db.execute('SELECT id FROM users WHERE name=?', (name,))
+        if cursor.fetchone():
+            return 'User already exists. Please log in.'
+        # Insert new user into the database
+        db.execute('INSERT INTO users (name, is_admin) VALUES (?, ?)', (name, is_admin))
+        db.commit()
+        return redirect('/login')
+    return render_template('register.html')
 
 # User login route
 @app.route('/login', methods=['GET', 'POST'])
@@ -46,15 +63,14 @@ def login():
         cursor = db.execute('SELECT id, is_admin FROM users WHERE name=?', (name,))
         user = cursor.fetchone()
         if user:
-            # Save user info in session
             session['user_id'] = user[0]
             session['is_admin'] = user[1]
             return redirect('/dashboard')
         else:
-            return 'User not found'
+            return 'User not found. Please register first.'
     return render_template('login.html')
 
-# Main dashboard after login
+# Dashboard after login
 @app.route('/dashboard')
 @login_required
 def dashboard():
@@ -72,30 +88,28 @@ def savings():
     user_id = session['user_id']
     cursor = db.execute('SELECT amount, date FROM savings WHERE user_id=?', (user_id,))
     savings = cursor.fetchall()
-    total = sum([row[0] for row in savings])  # Calculate total savings
+    total = sum([row[0] for row in savings])
     return render_template('savings.html', savings=savings, total=total)
 
-# Apply for a loan and view loan history
+# Apply for and view loans
 @app.route('/loan', methods=['GET', 'POST'])
 @login_required
 def loan():
     db = get_db()
     user_id = session['user_id']
     if request.method == 'POST':
-        amount = int(request.form['amount'])  # Loan amount
-        duration = int(request.form['duration'])  # Repayment duration in months
-        monthly = round(amount / duration, 2)  # Monthly repayment amount
+        amount = int(request.form['amount'])
+        duration = int(request.form['duration'])
+        monthly = round(amount / duration, 2)
         today = datetime.now()
-        # Insert loan request into database
         db.execute('INSERT INTO loans (user_id, amount, duration, monthly_repayment, date, status) VALUES (?, ?, ?, ?, ?, ?)',
                    (user_id, amount, duration, monthly, today.strftime('%Y-%m-%d'), 'pending'))
         db.commit()
-    # Retrieve loan history for the user
     cursor = db.execute('SELECT * FROM loans WHERE user_id=?', (user_id,))
     loans = cursor.fetchall()
     return render_template('loan.html', loans=loans)
 
-# Display repayment schedule for approved loans
+# View repayment schedule
 @app.route('/repayments')
 @login_required
 def repayments():
@@ -104,14 +118,12 @@ def repayments():
     cursor = db.execute('SELECT id, monthly_repayment, duration, date FROM loans WHERE user_id=? AND status="approved"', (user_id,))
     loans = cursor.fetchall()
     repayments = []
-
     for loan in loans:
         loan_id, monthly, duration, date_str = loan
         start_date = datetime.strptime(date_str, '%Y-%m-%d')
-        # Generate monthly due dates
         for i in range(duration):
             due_date = (start_date + timedelta(days=30*i)).strftime('%Y-%m-%d')
-            repayments.append((due_date, monthly, 0))  # 0 = unpaid (display only)
+            repayments.append((due_date, monthly, 0))  # unpaid
     return render_template('repayments.html', repayments=repayments)
 
 # Admin dashboard
@@ -122,7 +134,7 @@ def admin():
         return redirect('/dashboard')
     return render_template('admin.html')
 
-# Admin: Add savings for any user
+# Admin adds savings for users
 @app.route('/add_savings', methods=['GET', 'POST'])
 @login_required
 def add_savings():
@@ -138,7 +150,7 @@ def add_savings():
         return redirect('/add_savings')
     return render_template('add_savings.html')
 
-# Admin: View all users
+# Admin views all users
 @app.route('/users')
 @login_required
 def users():
@@ -149,7 +161,7 @@ def users():
     users = cursor.fetchall()
     return render_template('users.html', users=users)
 
-# Admin: View pending loan approvals
+# Admin views pending loan approvals
 @app.route('/approve_loans')
 @login_required
 def approve_loans():
@@ -160,7 +172,7 @@ def approve_loans():
     loans = cursor.fetchall()
     return render_template('approve_loans.html', loans=loans)
 
-# Admin: Approve a specific loan
+# Admin approves a loan
 @app.route('/approve/<int:loan_id>')
 @login_required
 def approve(loan_id):
@@ -171,12 +183,12 @@ def approve(loan_id):
     db.commit()
     return redirect('/approve_loans')
 
-# Logout route
+# Logout
 @app.route('/logout')
 def logout():
     session.clear()
     return redirect('/login')
 
-# Run the Flask app
+# Run the application
 if __name__ == '__main__':
     app.run(debug=True)
