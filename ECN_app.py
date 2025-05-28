@@ -4,28 +4,38 @@ from flask import Flask, render_template, request, redirect, session, g
 import sqlite3
 from datetime import datetime, timedelta
 from functools import wraps
+import os
 
 # Initialize the Flask application
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
-DATABASE = 'ecn_coop.db'
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DATABASE = os.path.join(BASE_DIR, 'ecn_coop.db')
 
 # Initialize the database with required tables
 def init_db():
+    print(f"Initializing database at {DATABASE}")
     with sqlite3.connect(DATABASE) as db:
-        db.execute('''CREATE TABLE IF NOT EXISTS users (
+        # Drop existing tables to ensure a clean slate (optional, for testing)
+        db.execute('DROP TABLE IF EXISTS users')
+        db.execute('DROP TABLE IF EXISTS savings')
+        db.execute('DROP TABLE IF EXISTS loans')
+        # Create tables
+        db.execute('''CREATE TABLE users (
                         id INTEGER PRIMARY KEY AUTOINCREMENT,
                         name TEXT NOT NULL,
                         is_admin INTEGER NOT NULL DEFAULT 0
                     )''')
-        db.execute('''CREATE TABLE IF NOT EXISTS savings (
+        print("Created users table")
+        db.execute('''CREATE TABLE savings (
                         id INTEGER PRIMARY KEY AUTOINCREMENT,
                         user_id INTEGER,
                         amount REAL,
                         date TEXT,
                         FOREIGN KEY (user_id) REFERENCES users(id)
                     )''')
-        db.execute('''CREATE TABLE IF NOT EXISTS loans (
+        print("Created savings table")
+        db.execute('''CREATE TABLE loans (
                         id INTEGER PRIMARY KEY AUTOINCREMENT,
                         user_id INTEGER,
                         amount REAL,
@@ -35,7 +45,9 @@ def init_db():
                         status TEXT,
                         FOREIGN KEY (user_id) REFERENCES users(id)
                     )''')
+        print("Created loans table")
         db.commit()
+        print("Database initialization completed")
 
 # Connect to SQLite database
 def get_db():
@@ -50,6 +62,10 @@ def close_db(error):
     if db:
         db.close()
 
+# Call init_db when the app context is created
+with app.app_context():
+    init_db()  # Ensure the database is initialized
+
 # Restrict access to logged-in users
 def login_required(f):
     @wraps(f)
@@ -59,10 +75,6 @@ def login_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
-# Redirect root to login
-@app.route('/')
-def index():
-    return redirect('/login')
 
 # User registration route
 @app.route('/register', methods=['GET', 'POST'])
