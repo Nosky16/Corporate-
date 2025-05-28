@@ -189,6 +189,34 @@ def logout():
     session.clear()
     return redirect('/login')
 
+# Initialize the database with required tables
+def init_db():
+    with sqlite3.connect(DATABASE) as db:
+        db.execute('''CREATE TABLE IF NOT EXISTS users (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        name TEXT NOT NULL,
+                        is_admin INTEGER NOT NULL DEFAULT 0
+                    )''')
+        db.execute('''CREATE TABLE IF NOT EXISTS savings (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        user_id INTEGER,
+                        amount REAL,
+                        date TEXT,
+                        FOREIGN KEY (user_id) REFERENCES users(id)
+                    )''')
+        db.execute('''CREATE TABLE IF NOT EXISTS loans (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        user_id INTEGER,
+                        amount REAL,
+                        duration INTEGER,
+                        monthly_repayment REAL,
+                        date TEXT,
+                        status TEXT,
+                        FOREIGN KEY (user_id) REFERENCES users(id)
+                    )''')
+        db.commit()
+
+
 # Run the application
 if __name__ == '__main__':
     app.run(debug=True)
