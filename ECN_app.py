@@ -258,8 +258,7 @@ def repayments():
         ORDER BY r.due_date
     ''', (user_id,))
     repayments = cursor.fetchall()
-    if not repayments:
-        return render_template('repayments.html', repayments=[], error='No repayment schedule available.')
+    print(f"Repayments for user {user_id}: {repayments}")  # Debug output
     return render_template('repayments.html', repayments=repayments)
 
 # Mark repayment as paid
@@ -330,7 +329,7 @@ def approve_loans():
     if not session.get('is_admin'):
         return redirect('/dashboard')
     db = get_db()
-    cursor = db.execute('SELECT id, user_id, amount, u.name FROM loan_applications l JOIN users u ON l.user_id = u.id WHERE l.status = "pending"')
+    cursor = db.execute('SELECT l.id, l.user_id, l.amount, u.name FROM loan_applications l JOIN users u ON l.user_id = u.id WHERE l.status = "pending"')
     applications = cursor.fetchall()
     return render_template('approve_loans.html', applications=applications)
 
