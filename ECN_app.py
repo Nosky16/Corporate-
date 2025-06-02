@@ -451,4 +451,49 @@ def reject(application_id):
         application_id, user_id, type_of_loan, amount, duration, ecn_staff_no, ippis_no, designation, \
         phone_no, bank_name, account_no, previous_month_salary, guarantor1_name, \
         guarantor1_staff_no, guarantor1_designation, guarantor1_phone_no, guarantor2_name, \
-        guarantor2_staff_no, guarantor2_designation, guarantor2_phone_no, date, st
+        guarantor2_staff_no, guarantor2_designation, guarantor2_phone_no, date, status = application
+        # Insert into loans table with status "rejected"
+        db.execute('''INSERT INTO loans (
+                        user_id, type_of_loan, amount, duration, ecn_staff_no, ippis_no, designation,
+                        phone_no, bank_name, account_no, previous_month_salary, monthly_repayment,
+                        date, status, amount_approved, interest_charged, total_amount,
+                        guarantor1_name, guarantor1_staff_no, guarantor1_designation, guarantor1_phone_no,
+                        guarantor2_name, guarantor2_staff_no, guarantor2_designation, guarantor2_phone_no
+                     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)''',
+                   (user_id, type_of_loan, amount, duration, ecn_staff_no, ippis_no, designation,
+                    phone_no, bank_name, account_no, previous_month_salary, 0, date, 'rejected', 0, 0, 0,
+                    guarantor1_name, guarantor1_staff_no, guarantor1_designation, guarantor1_phone_no,
+                    guarantor2_name, guarantor2_staff_no, guarantor2_designation, guarantor2_phone_no))
+        # Delete from loan_applications
+        db.execute('DELETE FROM loan_applications WHERE id = ?', (application_id,))
+        db.commit()
+    return redirect('/approve_loans')
+
+# Loan approval details route
+@app.route('/loan_approval_details/<int:loan_id>', methods=['GET', 'POST'])
+@login_required
+def loan_approval_details(loan_id):
+    if not session.get('is_admin'):
+        return redirect('/dashboard')
+    db = get_db()
+    cursor = db.execute('SELECT * FROM loans WHERE id = ?', (loan_id,))
+    loan = cursor.fetchone()
+    if request.method == 'POST':
+        amount_approved = float(request.form['amount_approved'])
+        interest_charged = float(request.form['interest_charged'])
+        total_amount = float(request.form['total_amount'])
+        monthly_repayment = total_amount / loan[4]  # duration
+        db.execute('''UPDATE loans SET amount_approved = ?, interest_charged = ?, total_amount = ?, monthly_repayment = ?
+                     WHERE id = ?''', (amount_approved, interest_charged, total_amount, monthly_repayment, loan_id))
+        db.execute('DELETE FROM repayments WHERE loan_id = ?', (loan_id,))
+        start_date = datetime.strptime(loan[13], '%Y-%m-%d')  # date (index 13, 0-based)
+        for i in range(loan[4]):  # duration
+            due_date = (start_date + timedelta(days=30*i)).strftime('%Y-%m-%d')
+            db.execute('INSERT INTO repayments (loan_id, due_date, amount, status) VALUES (?, ?, ?, ?)',
+                       (loan_id, due_date, monthly_repayment, 0))
+        db.commit()
+        return redirect('/approve_loans')
+    return render_template('loan_approval_details.html', loan=loan)
+
+if __name__ == '__main__':
+    app.run(debug=True)
