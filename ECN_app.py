@@ -80,6 +80,14 @@ def init_db():
                         amount_approved REAL,
                         interest_charged REAL,
                         total_amount REAL,
+                        guarantor1_name TEXT,
+                        guarantor1_staff_no TEXT,
+                        guarantor1_designation TEXT,
+                        guarantor1_phone_no TEXT,
+                        guarantor2_name TEXT,
+                        guarantor2_staff_no TEXT,
+                        guarantor2_designation TEXT,
+                        guarantor2_phone_no TEXT,
                         FOREIGN KEY (user_id) REFERENCES users(id)
                     )''')
         print("Created loans table")
@@ -240,9 +248,49 @@ def loan():
             return redirect('/loan')
         except ValueError as e:
             return render_template('loan.html', error='Invalid input: Ensure amounts and duration are numbers')
-    cursor = db.execute('SELECT * FROM loan_applications WHERE user_id=? AND status="pending"', (user_id,))
-    applications = cursor.fetchall()
-    return render_template('loan.html', applications=applications)
+
+    # Fetch pending applications
+    cursor = db.execute('SELECT id, type_of_loan, amount, duration, date, status FROM loan_applications WHERE user_id=?', (user_id,))
+    pending_applications = cursor.fetchall()
+
+    # Fetch approved/rejected loans and calculate amount owing
+    cursor = db.execute('SELECT id, type_of_loan, amount, duration, date, status, total_amount FROM loans WHERE user_id=?', (user_id,))
+    loans = cursor.fetchall()
+    loan_history = []
+
+    # Process pending applications
+    for app in pending_applications:
+        loan_history.append({
+            'id': app[0],
+            'type_of_loan': app[1],
+            'amount': app[2],
+            'duration': app[3],
+            'date': app[4],
+            'status': app[5],
+            'amount_owing': None  # Not applicable for pending applications
+        })
+
+    # Process approved/rejected loans
+    for loan in loans:
+        loan_id, type_of_loan, amount, duration, date, status, total_amount = loan
+        # Calculate amount owing for approved loans
+        if status == 'approved':
+            cursor = db.execute('SELECT SUM(amount) FROM repayments WHERE loan_id=? AND status=1', (loan_id,))
+            repaid_amount = cursor.fetchone()[0] or 0
+            amount_owing = total_amount - repaid_amount
+        else:
+            amount_owing = None  # Not applicable for rejected loans
+        loan_history.append({
+            'id': loan_id,
+            'type_of_loan': type_of_loan,
+            'amount': amount,
+            'duration': duration,
+            'date': date,
+            'status': status,
+            'amount_owing': amount_owing
+        })
+
+    return render_template('loan.html', loan_history=loan_history)
 
 # Repayments route
 @app.route('/repayments')
@@ -329,9 +377,28 @@ def approve_loans():
     if not session.get('is_admin'):
         return redirect('/dashboard')
     db = get_db()
-    cursor = db.execute('SELECT l.id, l.user_id, l.amount, u.name FROM loan_applications l JOIN users u ON l.user_id = u.id WHERE l.status = "pending"')
-    applications = cursor.fetchall()
-    return render_template('approve_loans.html', applications=applications)
+    # Fetch pending applications with detailed information
+    cursor = db.execute('''
+        SELECT l.id, l.user_id, l.amount, l.duration, l.ecn_staff_no, l.ippis_no, l.designation, 
+               l.phone_no, l.bank_name, l.account_no, l.previous_month_salary, u.name,
+               l.guarantor1_name, l.guarantor1_staff_no, l.guarantor1_designation, l.guarantor1_phone_no,
+               l.guarantor2_name, l.guarantor2_staff_no, l.guarantor2_designation, l.guarantor2_phone_no
+        FROM loan_applications l 
+        JOIN users u ON l.user_id = u.id 
+        WHERE l.status = "pending"
+    ''')
+    pending_applications = cursor.fetchall()
+    # Fetch approved loans with basic details (guarantor details are not transferred to loans table)
+    cursor = db.execute('SELECT l.id, l.user_id, l.amount, l.duration, l.ecn_staff_no, l.ippis_no, l.designation, 
+               l.phone_no, l.bank_name, l.account_no, l.previous_month_salary, u.name,
+               NULL AS guarantor1_name, NULL AS guarantor1_staff_no, NULL AS guarantor1_designation, NULL AS guarantor1_phone_no,
+               NULL AS guarantor2_name, NULL AS guarantor2_staff_no, NULL AS guarantor2_designation, NULL AS guarantor2_phone_no
+        FROM loans l 
+        JOIN users u ON l.user_id = u.id 
+        WHERE l.status = "approved"
+    ''')
+    approved_loans = cursor.fetchall()
+    return render_template('approve_loans.html', pending_applications=pending_applications, approved_loans=approved_loans)
 
 # Approve loan route
 @app.route('/approve/<int:application_id>')
@@ -352,11 +419,15 @@ def approve(application_id):
         db.execute('''INSERT INTO loans (
                         user_id, type_of_loan, amount, duration, ecn_staff_no, ippis_no, designation,
                         phone_no, bank_name, account_no, previous_month_salary, monthly_repayment,
-                        date, status, amount_approved, interest_charged, total_amount
-                     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)''',
+                        date, status, amount_approved, interest_charged, total_amount,
+                        guarantor1_name, guarantor1_staff_no, guarantor1_designation, guarantor1_phone_no,
+                        guarantor2_name, guarantor2_staff_no, guarantor2_designation, guarantor2_phone_no
+                     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)''',
                    (user_id, type_of_loan, amount, duration, ecn_staff_no, ippis_no, designation,
                     phone_no, bank_name, account_no, previous_month_salary, monthly_repayment,
-                    date, 'approved', amount, interest_charged, amount + interest_charged))
+                    date, 'approved', amount, interest_charged, amount + interest_charged,
+                    guarantor1_name, guarantor1_staff_no, guarantor1_designation, guarantor1_phone_no,
+                    guarantor2_name, guarantor2_staff_no, guarantor2_designation, guarantor2_phone_no))
         loan_id = db.execute('SELECT last_insert_rowid()').fetchone()[0]
         start_date = datetime.strptime(date, '%Y-%m-%d')
         for i in range(duration):
@@ -367,31 +438,17 @@ def approve(application_id):
         db.commit()
     return redirect('/approve_loans')
 
-# Loan approval details route
-@app.route('/loan_approval_details/<int:loan_id>', methods=['GET', 'POST'])
+# Reject loan route
+@app.route('/reject/<int:application_id>')
 @login_required
-def loan_approval_details(loan_id):
+def reject(application_id):
     if not session.get('is_admin'):
         return redirect('/dashboard')
     db = get_db()
-    cursor = db.execute('SELECT * FROM loans WHERE id = ?', (loan_id,))
-    loan = cursor.fetchone()
-    if request.method == 'POST':
-        amount_approved = float(request.form['amount_approved'])
-        interest_charged = float(request.form['interest_charged'])
-        total_amount = float(request.form['total_amount'])
-        monthly_repayment = total_amount / loan[4]  # duration
-        db.execute('''UPDATE loans SET amount_approved = ?, interest_charged = ?, total_amount = ?, monthly_repayment = ?
-                     WHERE id = ?''', (amount_approved, interest_charged, total_amount, monthly_repayment, loan_id))
-        db.execute('DELETE FROM repayments WHERE loan_id = ?', (loan_id,))
-        start_date = datetime.strptime(loan[13], '%Y-%m-%d')  # date (index 13, 0-based)
-        for i in range(loan[4]):  # duration
-            due_date = (start_date + timedelta(days=30*i)).strftime('%Y-%m-%d')
-            db.execute('INSERT INTO repayments (loan_id, due_date, amount, status) VALUES (?, ?, ?, ?)',
-                       (loan_id, due_date, monthly_repayment, 0))
-        db.commit()
-        return redirect('/approve_loans')
-    return render_template('loan_approval_details.html', loan=loan)
-
-if __name__ == '__main__':
-    app.run(debug=True)
+    cursor = db.execute('SELECT * FROM loan_applications WHERE id = ?', (application_id,))
+    application = cursor.fetchone()
+    if application:
+        application_id, user_id, type_of_loan, amount, duration, ecn_staff_no, ippis_no, designation, \
+        phone_no, bank_name, account_no, previous_month_salary, guarantor1_name, \
+        guarantor1_staff_no, guarantor1_designation, guarantor1_phone_no, guarantor2_name, \
+        guarantor2_staff_no, guarantor2_designation, guarantor2_phone_no, date, st
