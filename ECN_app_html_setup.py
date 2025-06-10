@@ -15,15 +15,15 @@
 </head>
 <body>
   <div class="header">
-    <img src="https://energy.gov.ng/wp-content/uploads/2023/05/ECN-Logo.png" alt="ECN Logo" class="ecn-logo">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/7/79/Coat_of_arms_of_Nigeria.svg" alt="Nigerian Coat of Arms" class="coat-of-arms">
+    <img src="{{ url_for('static', filename='images/ecn-logo.png') }}" alt="ECN Logo" class="ecn-logo">
+    <img src="{{ url_for('static', filename='images/coat-of-arms.png') }}" alt="Nigerian Coat of Arms" class="coat-of-arms">
     <h1>Energy Commission of Nigeria</h1>
   </div>
   <div class="container">
     <div class="welcome-section">
       <h2>Welcome to Energy Commission of Nigeria</h2>
       <p>Please log in to access your account.</p>
-      <img src="https://energy.gov.ng/wp-content/uploads/2023/05/thermal-energy-generation.jpg" alt="Thermal Energy Generation" class="img-fluid">
+      <img src="{{ url_for('static', filename='images/thermal-energy-generation.jpg') }}" alt="Thermal Energy Generation" class="img-fluid">
     </div>
     {% if error %}
       <p class="text-danger text-center">{{ error }}</p>
@@ -58,15 +58,15 @@
 </head>
 <body>
   <div class="header">
-    <img src="https://energy.gov.ng/wp-content/uploads/2023/05/ECN-Logo.png" alt="ECN Logo" class="ecn-logo">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/7/79/Coat_of_arms_of_Nigeria.svg" alt="Nigerian Coat of Arms" class="coat-of-arms">
+    <img src="{{ url_for('static', filename='images/ecn-logo.png') }}" alt="ECN Logo" class="ecn-logo">
+    <img src="{{ url_for('static', filename='images/coat-of-arms.png') }}" alt="Nigerian Coat of Arms" class="coat-of-arms">
     <h1>Energy Commission of Nigeria</h1>
   </div>
   <div class="container">
     <div class="welcome-section">
       <h2>Welcome to Energy Commission of Nigeria</h2>
       <p>Register to access our services.</p>
-      <img src="https://energy.gov.ng/wp-content/uploads/2023/05/thermal-energy-generation.jpg" alt="Thermal Energy Generation" class="img-fluid">
+      <img src="{{ url_for('static', filename='images/thermal-energy-generation.jpg') }}" alt="Thermal Energy Generation" class="img-fluid">
     </div>
     {% if error %}
       <p class="text-danger text-center">{{ error }}</p>
@@ -105,15 +105,15 @@
 </head>
 <body>
   <div class="header">
-    <img src="https://energy.gov.ng/wp-content/uploads/2023/05/ECN-Logo.png" alt="ECN Logo" class="ecn-logo">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/7/79/Coat_of_arms_of_Nigeria.svg" alt="Nigerian Coat of Arms" class="coat-of-arms">
+    <img src="{{ url_for('static', filename='images/ecn-logo.png') }}" alt="ECN Logo" class="ecn-logo">
+    <img src="{{ url_for('static', filename='images/coat-of-arms.png') }}" alt="Nigerian Coat of Arms" class="coat-of-arms">
     <h1>Energy Commission of Nigeria</h1>
   </div>
   <div class="container">
     <div class="welcome-section">
       <h2>Welcome, {{ name }}!</h2>
       <p>Manage your account and services.</p>
-      <img src="https://energy.gov.ng/wp-content/uploads/2023/05/thermal-energy-generation.jpg" alt="Thermal Energy Generation" class="img-fluid">
+      <img src="{{ url_for('static', filename='images/thermal-energy-generation.jpg') }}" alt="Thermal Energy Generation" class="img-fluid">
     </div>
     <div class="mt-3">
       <a href="/savings" class="btn btn-primary w-100 mb-2">View Savings</a>
@@ -147,15 +147,15 @@
 </head>
 <body>
   <div class="header">
-    <img src="https://energy.gov.ng/wp-content/uploads/2023/05/ECN-Logo.png" alt="ECN Logo" class="ecn-logo">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/7/79/Coat_of_arms_of_Nigeria.svg" alt="Nigerian Coat of Arms" class="coat-of-arms">
+    <img src="{{ url_for('static', filename='images/ecn-logo.png') }}" alt="ECN Logo" class="ecn-logo">
+    <img src="{{ url_for('static', filename='images/coat-of-arms.png') }}" alt="Nigerian Coat of Arms" class="coat-of-arms">
     <h1>Energy Commission of Nigeria</h1>
   </div>
   <div class="container">
     <div class="welcome-section">
       <h2>Your Savings</h2>
       <p>View your savings details.</p>
-      <img src="https://energy.gov.ng/wp-content/uploads/2023/05/thermal-energy-generation.jpg" alt="Thermal Energy Generation" class="img-fluid">
+      <img src="{{ url_for('static', filename='images/thermal-energy-generation.jpg') }}" alt="Thermal Energy Generation" class="img-fluid">
     </div>
     <p class="text-center">Total Savings: ₦{{ total }}</p>
     {% if savings %}
@@ -202,15 +202,15 @@
 </head>
 <body>
   <div class="header">
-    <img src="https://energy.gov.ng/wp-content/uploads/2023/05/ECN-Logo.png" alt="ECN Logo" class="ecn-logo">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/7/79/Coat_of_arms_of_Nigeria.svg" alt="Nigerian Coat of Arms" class="coat-of-arms">
+    <img src="{{ url_for('static', filename='images/ecn-logo.png') }}" alt="ECN Logo" class="ecn-logo">
+    <img src="{{ url_for('static', filename='images/coat-of-arms.png') }}" alt="Nigerian Coat of Arms" class="coat-of-arms">
     <h1>Energy Commission of Nigeria</h1>
   </div>
   <div class="container">
     <div class="welcome-section">
       <h2>Apply for a Loan</h2>
       <p>Submit your loan application.</p>
-      <img src="https://energy.gov.ng/wp-content/uploads/2023/05/thermal-energy-generation.jpg" alt="Thermal Energy Generation" class="img-fluid">
+      <img src="{{ url_for('static', filename='images/thermal-energy-generation.jpg') }}" alt="Thermal Energy Generation" class="img-fluid">
     </div>
     {% if error %}
       <p class="text-danger text-center">{{ error }}</p>
@@ -340,15 +340,15 @@
 </head>
 <body>
   <div class="header">
-    <img src="https://energy.gov.ng/wp-content/uploads/2023/05/ECN-Logo.png" alt="ECN Logo" class="ecn-logo">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/7/79/Coat_of_arms_of_Nigeria.svg" alt="Nigerian Coat of Arms" class="coat-of-arms">
+    <img src="{{ url_for('static', filename='images/ecn-logo.png') }}" alt="ECN Logo" class="ecn-logo">
+    <img src="{{ url_for('static', filename='images/coat-of-arms.png') }}" alt="Nigerian Coat of Arms" class="coat-of-arms">
     <h1>Energy Commission of Nigeria</h1>
   </div>
   <div class="container">
     <div class="welcome-section">
       <h2>Your Repayments</h2>
       <p>View and manage your repayment schedule.</p>
-      <img src="https://energy.gov.ng/wp-content/uploads/2023/05/thermal-energy-generation.jpg" alt="Thermal Energy Generation" class="img-fluid">
+      <img src="{{ url_for('static', filename='images/thermal-energy-generation.jpg') }}" alt="Thermal Energy Generation" class="img-fluid">
     </div>
     {% if repayments %}
       <table class="table table-bordered">
@@ -409,15 +409,15 @@
 </head>
 <body>
   <div class="header">
-    <img src="https://energy.gov.ng/wp-content/uploads/2023/05/ECN-Logo.png" alt="ECN Logo" class="ecn-logo">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/7/79/Coat_of_arms_of_Nigeria.svg" alt="Nigerian Coat of Arms" class="coat-of-arms">
+    <img src="{{ url_for('static', filename='images/ecn-logo.png') }}" alt="ECN Logo" class="ecn-logo">
+    <img src="{{ url_for('static', filename='images/coat-of-arms.png') }}" alt="Nigerian Coat of Arms" class="coat-of-arms">
     <h1>Energy Commission of Nigeria</h1>
   </div>
   <div class="container">
     <div class="welcome-section">
       <h2>Admin Dashboard</h2>
       <p>Manage staff and loan approvals.</p>
-      <img src="https://energy.gov.ng/wp-content/uploads/2023/05/thermal-energy-generation.jpg" alt="Thermal Energy Generation" class="img-fluid">
+      <img src="{{ url_for('static', filename='images/thermal-energy-generation.jpg') }}" alt="Thermal Energy Generation" class="img-fluid">
     </div>
     <div class="mt-3">
       <a href="/add_savings" class="btn btn-primary w-100 mb-2">Add Savings</a>
@@ -448,15 +448,15 @@
 </head>
 <body>
   <div class="header">
-    <img src="https://energy.gov.ng/wp-content/uploads/2023/05/ECN-Logo.png" alt="ECN Logo" class="ecn-logo">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/7/79/Coat_of_arms_of_Nigeria.svg" alt="Nigerian Coat of Arms" class="coat-of-arms">
+    <img src="{{ url_for('static', filename='images/ecn-logo.png') }}" alt="ECN Logo" class="ecn-logo">
+    <img src="{{ url_for('static', filename='images/coat-of-arms.png') }}" alt="Nigerian Coat of Arms" class="coat-of-arms">
     <h1>Energy Commission of Nigeria</h1>
   </div>
   <div class="container">
     <div class="welcome-section">
       <h2>Add Savings</h2>
       <p>Add savings for staff members.</p>
-      <img src="https://energy.gov.ng/wp-content/uploads/2023/05/thermal-energy-generation.jpg" alt="Thermal Energy Generation" class="img-fluid">
+      <img src="{{ url_for('static', filename='images/thermal-energy-generation.jpg') }}" alt="Thermal Energy Generation" class="img-fluid">
     </div>
     {% if error %}
       <p class="text-danger text-center">{{ error }}</p>
@@ -501,15 +501,15 @@
 </head>
 <body>
   <div class="header">
-    <img src="https://energy.gov.ng/wp-content/uploads/2023/05/ECN-Logo.png" alt="ECN Logo" class="ecn-logo">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/7/79/Coat_of_arms_of_Nigeria.svg" alt="Nigerian Coat of Arms" class="coat-of-arms">
+    <img src="{{ url_for('static', filename='images/ecn-logo.png') }}" alt="ECN Logo" class="ecn-logo">
+    <img src="{{ url_for('static', filename='images/coat-of-arms.png') }}" alt="Nigerian Coat of Arms" class="coat-of-arms">
     <h1>Energy Commission of Nigeria</h1>
   </div>
   <div class="container">
     <div class="welcome-section">
       <h2>Users</h2>
       <p>View all registered users.</p>
-      <img src="https://energy.gov.ng/wp-content/uploads/2023/05/thermal-energy-generation.jpg" alt="Thermal Energy Generation" class="img-fluid">
+      <img src="{{ url_for('static', filename='images/thermal-energy-generation.jpg') }}" alt="Thermal Energy Generation" class="img-fluid">
     </div>
     {% if users %}
       <table class="table table-bordered">
@@ -555,15 +555,15 @@
 </head>
 <body>
   <div class="header">
-    <img src="https://energy.gov.ng/wp-content/uploads/2023/05/ECN-Logo.png" alt="ECN Logo" class="ecn-logo">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/7/79/Coat_of_arms_of_Nigeria.svg" alt="Nigerian Coat of Arms" class="coat-of-arms">
+    <img src="{{ url_for('static', filename='images/ecn-logo.png') }}" alt="ECN Logo" class="ecn-logo">
+    <img src="{{ url_for('static', filename='images/coat-of-arms.png') }}" alt="Nigerian Coat of Arms" class="coat-of-arms">
     <h1>Energy Commission of Nigeria</h1>
   </div>
   <div class="container">
     <div class="welcome-section">
       <h2>Pending Loan Applications</h2>
       <p>Review and approve or reject loan applications.</p>
-      <img src="https://energy.gov.ng/wp-content/uploads/2023/05/thermal-energy-generation.jpg" alt="Thermal Energy Generation" class="img-fluid">
+      <img src="{{ url_for('static', filename='images/thermal-energy-generation.jpg') }}" alt="Thermal Energy Generation" class="img-fluid">
     </div>
     {% if pending_applications %}
       <table class="table table-bordered">
@@ -687,15 +687,15 @@
 </head>
 <body>
   <div class="header">
-    <img src="https://energy.gov.ng/wp-content/uploads/2023/05/ECN-Logo.png" alt="ECN Logo" class="ecn-logo">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/7/79/Coat_of_arms_of_Nigeria.svg" alt="Nigerian Coat of Arms" class="coat-of-arms">
+    <img src="{{ url_for('static', filename='images/ecn-logo.png') }}" alt="ECN Logo" class="ecn-logo">
+    <img src="{{ url_for('static', filename='images/coat-of-arms.png') }}" alt="Nigerian Coat of Arms" class="coat-of-arms">
     <h1>Energy Commission of Nigeria</h1>
   </div>
   <div class="container">
     <div class="welcome-section">
       <h2>Edit Loan Details</h2>
       <p>Modify the details of the approved loan.</p>
-      <img src="https://energy.gov.ng/wp-content/uploads/2023/05/thermal-energy-generation.jpg" alt="Thermal Energy Generation" class="img-fluid">
+      <img src="{{ url_for('static', filename='images/thermal-energy-generation.jpg') }}" alt="Thermal Energy Generation" class="img-fluid">
     </div>
     <p>Loan ID: {{ loan[0] }}</p>
     <p>User ID: {{ loan[1] }}</p>
@@ -740,15 +740,15 @@
 </head>
 <body>
   <div class="header">
-    <img src="https://energy.gov.ng/wp-content/uploads/2023/05/ECN-Logo.png" alt="ECN Logo" class="ecn-logo">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/7/79/Coat_of_arms_of_Nigeria.svg" alt="Nigerian Coat of Arms" class="coat-of-arms">
+    <img src="{{ url_for('static', filename='images/ecn-logo.png') }}" alt="ECN Logo" class="ecn-logo">
+    <img src="{{ url_for('static', filename='images/coat-of-arms.png') }}" alt="Nigerian Coat of Arms" class="coat-of-arms">
     <h1>Energy Commission of Nigeria</h1>
   </div>
   <div class="container">
     <div class="welcome-section">
       <h2>Mark Staff Repayment</h2>
       <p>Mark repayments as paid for staff members.</p>
-      <img src="https://energy.gov.ng/wp-content/uploads/2023/05/thermal-energy-generation.jpg" alt="Thermal Energy Generation" class="img-fluid">
+      <img src="{{ url_for('static', filename='images/thermal-energy-generation.jpg') }}" alt="Thermal Energy Generation" class="img-fluid">
     </div>
     <form method="POST" class="p-4 border rounded bg-white">
       <div class="mb-3">
