@@ -270,29 +270,38 @@ def loan():
             'amount_owing': None  # Not applicable for pending applications
         })
 
-    # Process approved/rejected loans
+    # Process approved/rejected loans with repayments
     for loan in loans:
         loan_id, type_of_loan, amount, duration, date, status, total_amount = loan
-        # Calculate amount owing for approved loans
-        if status == 'approved':
-            cursor = db.execute('SELECT SUM(amount) FROM repayments WHERE loan_id=? AND status=1', (loan_id,))
-            repaid_amount = cursor.fetchone()[0] or 0
-            amount_owing = total_amount - repaid_amount
+        # Fetch repayments for this loan
+        cursor = db.execute('SELECT id, due_date, amount, status FROM repayments WHERE loan_id=? ORDER BY due_date', (loan_id,))
+        repayments = cursor.fetchall()
+        if status == 'approved' and repayments:
+            for repayment in repayments:
+                repayment_id, due_date, amount, repayment_status = repayment
+                loan_history.append({
+                    'id': repayment_id,
+                    'type_of_loan': type_of_loan,
+                    'amount': amount,
+                    'duration': None,  # Not applicable for individual repayments
+                    'date': due_date,
+                    'status': 'Paid' if repayment_status == 1 else 'Unpaid',
+                    'amount_owing': None  # Handled per repayment, not loan total here
+                })
         else:
-            amount_owing = None  # Not applicable for rejected loans
-        loan_history.append({
-            'id': loan_id,
-            'type_of_loan': type_of_loan,
-            'amount': amount,
-            'duration': duration,
-            'date': date,
-            'status': status,
-            'amount_owing': amount_owing
-        })
+            loan_history.append({
+                'id': loan_id,
+                'type_of_loan': type_of_loan,
+                'amount': amount,
+                'duration': duration,
+                'date': date,
+                'status': status,
+                'amount_owing': None
+            })
 
     return render_template('loan.html', loan_history=loan_history)
 
-# Repayments route
+# Repayments route (unchanged, kept for reference)
 @app.route('/repayments')
 @login_required
 def repayments():
@@ -309,7 +318,7 @@ def repayments():
     print(f"Repayments for user {user_id}: {repayments}")  # Debug output
     return render_template('repayments.html', repayments=repayments)
 
-# Mark repayment as paid
+# Mark repayment as paid (for staff's own repayments, unchanged)
 @app.route('/mark_paid/<int:repayment_id>')
 @login_required
 def mark_paid(repayment_id):
@@ -325,7 +334,7 @@ def mark_paid(repayment_id):
         db.commit()
     return redirect('/repayments')
 
-# Admin dashboard route
+# Admin dashboard route (updated with new link)
 @app.route('/admin')
 @login_required
 def admin():
@@ -333,7 +342,7 @@ def admin():
         return redirect('/dashboard')
     return render_template('admin.html')
 
-# Add savings route
+# Add savings route (unchanged)
 @app.route('/add_savings', methods=['GET', 'POST'])
 @login_required
 def add_savings():
@@ -359,7 +368,7 @@ def add_savings():
     users = cursor.fetchall()
     return render_template('add_savings.html', users=users)
 
-# Users route
+# Users route (unchanged)
 @app.route('/users')
 @login_required
 def users():
@@ -370,37 +379,81 @@ def users():
     users = cursor.fetchall()
     return render_template('users.html', users=users)
 
-# Approve loans route
+# Approve loans route (unchanged)
 @app.route('/approve_loans')
 @login_required
 def approve_loans():
     if not session.get('is_admin'):
         return redirect('/dashboard')
     db = get_db()
-    # Fetch pending applications with detailed information
-    cursor = db.execute('''
-        SELECT l.id, l.user_id, l.amount, l.duration, l.ecn_staff_no, l.ippis_no, l.designation, 
-               l.phone_no, l.bank_name, l.account_no, l.previous_month_salary, u.name,
-               l.guarantor1_name, l.guarantor1_staff_no, l.guarantor1_designation, l.guarantor1_phone_no,
-               l.guarantor2_name, l.guarantor2_staff_no, l.guarantor2_designation, l.guarantor2_phone_no
-        FROM loan_applications l 
-        JOIN users u ON l.user_id = u.id 
-        WHERE l.status = "pending"
-    ''')
-    pending_applications = cursor.fetchall()
-    # Fetch approved loans with basic details (guarantor details are not transferred to loans table)
-    cursor = db.execute('SELECT l.id, l.user_id, l.amount, l.duration, l.ecn_staff_no, l.ippis_no, l.designation, 
-               l.phone_no, l.bank_name, l.account_no, l.previous_month_salary, u.name,
-               NULL AS guarantor1_name, NULL AS guarantor1_staff_no, NULL AS guarantor1_designation, NULL AS guarantor1_phone_no,
-               NULL AS guarantor2_name, NULL AS guarantor2_staff_no, NULL AS guarantor2_designation, NULL AS guarantor2_phone_no
-        FROM loans l 
-        JOIN users u ON l.user_id = u.id 
-        WHERE l.status = "approved"
-    ''')
-    approved_loans = cursor.fetchall()
-    return render_template('approve_loans.html', pending_applications=pending_applications, approved_loans=approved_loans)
+    try:
+        # Fetch pending applications with detailed information
+        cursor = db.execute('''
+            SELECT l.id, l.user_id, l.amount, l.duration, l.ecn_staff_no, l.ippis_no, l.designation, 
+                   l.phone_no, l.bank_name, l.account_no, l.previous_month_salary, u.name,
+                   l.guarantor1_name, l.guarantor1_staff_no, l.guarantor1_designation, l.guarantor1_phone_no,
+                   l.guarantor2_name, l.guarantor2_staff_no, l.guarantor2_designation, l.guarantor2_phone_no
+            FROM loan_applications l 
+            JOIN users u ON l.user_id = u.id 
+            WHERE l.status = "pending"
+        ''')
+        pending_applications = cursor.fetchall()
 
-# Approve loan route
+        # Fetch approved loans with detailed information
+        cursor = db.execute('''
+            SELECT l.id, l.user_id, l.amount, l.duration, l.ecn_staff_no, l.ippis_no, l.designation, 
+                   l.phone_no, l.bank_name, l.account_no, l.previous_month_salary, u.name,
+                   l.guarantor1_name, l.guarantor1_staff_no, l.guarantor1_designation, l.guarantor1_phone_no,
+                   l.guarantor2_name, l.guarantor2_staff_no, l.guarantor2_designation, l.guarantor2_phone_no
+            FROM loans l 
+            JOIN users u ON l.user_id = u.id 
+            WHERE l.status = "approved"
+        ''')
+        approved_loans = cursor.fetchall()
+
+        return render_template('approve_loans.html', pending_applications=pending_applications, approved_loans=approved_loans)
+    except sqlite3.Error as e:
+        print(f"Database error: {e}")
+        return "An error occurred while fetching loan data. Please check the server logs.", 500
+
+# Approve loans route (unchanged)
+@app.route('/approve_loans')
+@login_required
+def approve_loans():
+    if not session.get('is_admin'):
+        return redirect('/dashboard')
+    db = get_db()
+    try:
+        # Fetch pending applications with detailed information
+        cursor = db.execute('''
+            SELECT l.id, l.user_id, l.amount, l.duration, l.ecn_staff_no, l.ippis_no, l.designation, 
+                   l.phone_no, l.bank_name, l.account_no, l.previous_month_salary, u.name,
+                   l.guarantor1_name, l.guarantor1_staff_no, l.guarantor1_designation, l.guarantor1_phone_no,
+                   l.guarantor2_name, l.guarantor2_staff_no, l.guarantor2_designation, l.guarantor2_phone_no
+            FROM loan_applications l 
+            JOIN users u ON l.user_id = u.id 
+            WHERE l.status = "pending"
+        ''')
+        pending_applications = cursor.fetchall()
+
+        # Fetch approved loans with detailed information
+        cursor = db.execute('''
+            SELECT l.id, l.user_id, l.amount, l.duration, l.ecn_staff_no, l.ippis_no, l.designation, 
+                   l.phone_no, l.bank_name, l.account_no, l.previous_month_salary, u.name,
+                   l.guarantor1_name, l.guarantor1_staff_no, l.guarantor1_designation, l.guarantor1_phone_no,
+                   l.guarantor2_name, l.guarantor2_staff_no, l.guarantor2_designation, l.guarantor2_phone_no
+            FROM loans l 
+            JOIN users u ON l.user_id = u.id 
+            WHERE l.status = "approved"
+        ''')
+        approved_loans = cursor.fetchall()
+
+        return render_template('approve_loans.html', pending_applications=pending_applications, approved_loans=approved_loans)
+    except sqlite3.Error as e:
+        print(f"Database error: {e}")
+        return "An error occurred while fetching loan data. Please check the server logs.", 500
+
+# Approve loan route (unchanged)
 @app.route('/approve/<int:application_id>')
 @login_required
 def approve(application_id):
@@ -438,7 +491,7 @@ def approve(application_id):
         db.commit()
     return redirect('/approve_loans')
 
-# Reject loan route
+# Reject loan route (unchanged)
 @app.route('/reject/<int:application_id>')
 @login_required
 def reject(application_id):
@@ -469,7 +522,7 @@ def reject(application_id):
         db.commit()
     return redirect('/approve_loans')
 
-# Loan approval details route
+# Loan approval details route (unchanged)
 @app.route('/loan_approval_details/<int:loan_id>', methods=['GET', 'POST'])
 @login_required
 def loan_approval_details(loan_id):
@@ -494,6 +547,44 @@ def loan_approval_details(loan_id):
         db.commit()
         return redirect('/approve_loans')
     return render_template('loan_approval_details.html', loan=loan)
+
+# New route for admin to mark staff repayments as paid
+@app.route('/mark_staff_repayment', methods=['GET', 'POST'])
+@login_required
+def mark_staff_repayment():
+    if not session.get('is_admin'):
+        return redirect('/dashboard')
+    db = get_db()
+    if request.method == 'POST':
+        staff_id = int(request.form['staff_id'])
+        repayment_id = int(request.form['repayment_id'])
+        # Verify the repayment belongs to the selected staff
+        cursor = db.execute('''
+            SELECT r.id FROM repayments r
+            JOIN loans l ON r.loan_id = l.id
+            WHERE r.id = ? AND l.user_id = ?
+        ''', (repayment_id, staff_id))
+        if cursor.fetchone():
+            db.execute('UPDATE repayments SET status = 1 WHERE id = ?', (repayment_id,))
+            db.commit()
+        return redirect('/mark_staff_repayment')
+    # Fetch all users and their unpaid repayments
+    cursor = db.execute('SELECT id, name FROM users WHERE is_admin = 0')
+    users = cursor.fetchall()
+    repayments_data = {}
+    for user in users:
+        user_id = user[0]
+        cursor = db.execute('''
+            SELECT r.id, r.due_date, r.amount, r.status, l.id AS loan_id
+            FROM repayments r
+            JOIN loans l ON r.loan_id = l.id
+            WHERE l.user_id = ? AND l.status = "approved" AND r.status = 0
+            ORDER BY r.due_date
+        ''', (user_id,))
+        repayments = cursor.fetchall()
+        if repayments:
+            repayments_data[user_id] = repayments
+    return render_template('mark_staff_repayment.html', users=users, repayments_data=repayments_data)
 
 if __name__ == '__main__':
     app.run(debug=True)
