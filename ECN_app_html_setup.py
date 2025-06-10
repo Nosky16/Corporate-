@@ -347,7 +347,7 @@
   <div class="container">
     <div class="welcome-section">
       <h2>Your Repayments</h2>
-      <p>View and manage your repayment schedule.</p>
+      <p>View your repayment schedule.</p>
       <img src="{{ url_for('static', filename='images/thermal-energy-generation.jpg') }}" alt="Thermal Energy Generation" class="img-fluid">
     </div>
     {% if repayments %}
@@ -357,7 +357,6 @@
             <th>Due Date</th>
             <th>Amount (₦)</th>
             <th>Status</th>
-            <th>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -370,13 +369,6 @@
                   Paid
                 {% else %}
                   Unpaid
-                {% endif %}
-              </td>
-              <td>
-                {% if repayment[3] == 0 %}
-                  <a href="/mark_paid/{{ repayment[0] }}" class="btn btn-sm btn-success">Mark as Paid</a>
-                {% else %}
-                  N/A
                 {% endif %}
               </td>
             </tr>
