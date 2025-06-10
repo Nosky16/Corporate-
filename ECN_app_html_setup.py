@@ -2,28 +2,39 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <!-- Page title for the login page -->
-  <title>Login</title>
-  <!-- Bootstrap CSS for styling -->
+  <title>Login - Energy Commission of Nigeria</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { background-color: #f8f9fa; font-family: Arial, sans-serif; }
+    .header { background-color: #008000; color: white; padding: 10px 0; text-align: center; }
+    .header img { height: 50px; margin: 0 10px; }
+    .container { max-width: 600px; margin-top: 20px; }
+    .welcome-section { text-align: center; margin-bottom: 20px; }
+    .welcome-section img { max-width: 100%; height: auto; }
+  </style>
 </head>
 <body>
-  <div class="container mt-4">
-    <!-- Page heading -->
-    <h2>Login</h2>
-    <!-- Display error message if login fails -->
+  <div class="header">
+    <img src="https://energy.gov.ng/wp-content/uploads/2023/05/ECN-Logo.png" alt="ECN Logo" class="ecn-logo">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/7/79/Coat_of_arms_of_Nigeria.svg" alt="Nigerian Coat of Arms" class="coat-of-arms">
+    <h1>Energy Commission of Nigeria</h1>
+  </div>
+  <div class="container">
+    <div class="welcome-section">
+      <h2>Welcome to Energy Commission of Nigeria</h2>
+      <p>Please log in to access your account.</p>
+      <img src="https://energy.gov.ng/wp-content/uploads/2023/05/thermal-energy-generation.jpg" alt="Thermal Energy Generation" class="img-fluid">
+    </div>
     {% if error %}
-      <p class="text-danger">{{ error }}</p>
+      <p class="text-danger text-center">{{ error }}</p>
     {% endif %}
-    <!-- Login form -->
-    <form method="POST">
+    <form method="POST" class="p-4 border rounded bg-white">
       <div class="mb-3">
         <label for="name" class="form-label">Name</label>
         <input type="text" name="name" class="form-control" required>
       </div>
-      <button type="submit" class="btn btn-primary">Login</button>
-      <!-- Link to the registration page -->
-      <a href="/register" class="btn btn-secondary ms-2">Register</a>
+      <button type="submit" class="btn btn-primary w-100">Login</button>
+      <a href="/register" class="btn btn-secondary w-100 mt-2">Register</a>
     </form>
   </div>
 </body>
@@ -34,21 +45,33 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <!-- Page title for the registration page -->
-  <title>Register</title>
-  <!-- Bootstrap CSS for styling -->
+  <title>Register - Energy Commission of Nigeria</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { background-color: #f8f9fa; font-family: Arial, sans-serif; }
+    .header { background-color: #008000; color: white; padding: 10px 0; text-align: center; }
+    .header img { height: 50px; margin: 0 10px; }
+    .container { max-width: 600px; margin-top: 20px; }
+    .welcome-section { text-align: center; margin-bottom: 20px; }
+    .welcome-section img { max-width: 100%; height: auto; }
+  </style>
 </head>
 <body>
-  <div class="container mt-4">
-    <!-- Page heading -->
-    <h2>Register</h2>
-    <!-- Display error message if registration fails -->
+  <div class="header">
+    <img src="https://energy.gov.ng/wp-content/uploads/2023/05/ECN-Logo.png" alt="ECN Logo" class="ecn-logo">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/7/79/Coat_of_arms_of_Nigeria.svg" alt="Nigerian Coat of Arms" class="coat-of-arms">
+    <h1>Energy Commission of Nigeria</h1>
+  </div>
+  <div class="container">
+    <div class="welcome-section">
+      <h2>Welcome to Energy Commission of Nigeria</h2>
+      <p>Register to access our services.</p>
+      <img src="https://energy.gov.ng/wp-content/uploads/2023/05/thermal-energy-generation.jpg" alt="Thermal Energy Generation" class="img-fluid">
+    </div>
     {% if error %}
-      <p class="text-danger">{{ error }}</p>
+      <p class="text-danger text-center">{{ error }}</p>
     {% endif %}
-    <!-- Registration form -->
-    <form method="POST">
+    <form method="POST" class="p-4 border rounded bg-white">
       <div class="mb-3">
         <label for="name" class="form-label">Name</label>
         <input type="text" name="name" class="form-control" required>
@@ -57,9 +80,8 @@
         <input type="checkbox" name="is_admin" class="form-check-input" id="is_admin">
         <label for="is_admin" class="form-check-label">Register as Admin</label>
       </div>
-      <button type="submit" class="btn btn-primary">Register</button>
-      <!-- Link to the login page -->
-      <a href="/login" class="btn btn-secondary ms-2">Back to Login</a>
+      <button type="submit" class="btn btn-primary w-100">Register</button>
+      <a href="/login" class="btn btn-secondary w-100 mt-2">Back to Login</a>
     </form>
   </div>
 </body>
@@ -70,25 +92,37 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <!-- Page title for the dashboard -->
-  <title>Dashboard</title>
-  <!-- Bootstrap CSS for styling -->
+  <title>Dashboard - Energy Commission of Nigeria</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { background-color: #f8f9fa; font-family: Arial, sans-serif; }
+    .header { background-color: #008000; color: white; padding: 10px 0; text-align: center; }
+    .header img { height: 50px; margin: 0 10px; }
+    .container { max-width: 600px; margin-top: 20px; }
+    .welcome-section { text-align: center; margin-bottom: 20px; }
+    .welcome-section img { max-width: 100%; height: auto; }
+  </style>
 </head>
 <body>
-  <div class="container mt-4">
-    <!-- Welcome message with the user's name -->
-    <h2>Welcome, {{ name }}!</h2>
-    <!-- Navigation links for all users -->
+  <div class="header">
+    <img src="https://energy.gov.ng/wp-content/uploads/2023/05/ECN-Logo.png" alt="ECN Logo" class="ecn-logo">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/7/79/Coat_of_arms_of_Nigeria.svg" alt="Nigerian Coat of Arms" class="coat-of-arms">
+    <h1>Energy Commission of Nigeria</h1>
+  </div>
+  <div class="container">
+    <div class="welcome-section">
+      <h2>Welcome, {{ name }}!</h2>
+      <p>Manage your account and services.</p>
+      <img src="https://energy.gov.ng/wp-content/uploads/2023/05/thermal-energy-generation.jpg" alt="Thermal Energy Generation" class="img-fluid">
+    </div>
     <div class="mt-3">
-      <a href="/savings" class="btn btn-primary">View Savings</a>
-      <a href="/loan" class="btn btn-primary">Apply for Loan</a>
-      <a href="/repayments" class="btn btn-primary">View Repayments</a>
-      <!-- Additional links for admins -->
+      <a href="/savings" class="btn btn-primary w-100 mb-2">View Savings</a>
+      <a href="/loan" class="btn btn-primary w-100 mb-2">Apply for Loan</a>
+      <a href="/repayments" class="btn btn-primary w-100 mb-2">View Repayments</a>
       {% if is_admin %}
-        <a href="/admin" class="btn btn-warning">Admin Dashboard</a>
+        <a href="/admin" class="btn btn-warning w-100 mb-2">Admin Dashboard</a>
       {% endif %}
-      <a href="/logout" class="btn btn-danger">Logout</a>
+      <a href="/logout" class="btn btn-danger w-100">Logout</a>
     </div>
   </div>
 </body>
@@ -99,18 +133,31 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <!-- Page title for the savings page -->
-  <title>Savings</title>
-  <!-- Bootstrap CSS for styling -->
+  <title>Savings - Energy Commission of Nigeria</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { background-color: #f8f9fa; font-family: Arial, sans-serif; }
+    .header { background-color: #008000; color: white; padding: 10px 0; text-align: center; }
+    .header img { height: 50px; margin: 0 10px; }
+    .container { max-width: 800px; margin-top: 20px; }
+    .welcome-section { text-align: center; margin-bottom: 20px; }
+    .welcome-section img { max-width: 100%; height: auto; }
+    table { background-color: white; }
+  </style>
 </head>
 <body>
-  <div class="container mt-4">
-    <!-- Page heading -->
-    <h2>Your Savings</h2>
-    <!-- Display total savings -->
-    <p>Total Savings: ₦{{ total }}</p>
-    <!-- Display savings history table -->
+  <div class="header">
+    <img src="https://energy.gov.ng/wp-content/uploads/2023/05/ECN-Logo.png" alt="ECN Logo" class="ecn-logo">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/7/79/Coat_of_arms_of_Nigeria.svg" alt="Nigerian Coat of Arms" class="coat-of-arms">
+    <h1>Energy Commission of Nigeria</h1>
+  </div>
+  <div class="container">
+    <div class="welcome-section">
+      <h2>Your Savings</h2>
+      <p>View your savings details.</p>
+      <img src="https://energy.gov.ng/wp-content/uploads/2023/05/thermal-energy-generation.jpg" alt="Thermal Energy Generation" class="img-fluid">
+    </div>
+    <p class="text-center">Total Savings: ₦{{ total }}</p>
     {% if savings %}
       <table class="table table-bordered">
         <thead>
@@ -122,18 +169,16 @@
         <tbody>
           {% for saving in savings %}
             <tr>
-              <td>{{ saving[1] }}</td> <!-- Date -->
-              <td>{{ saving[0] }}</td> <!-- Amount -->
+              <td>{{ saving[1] }}</td>
+              <td>{{ saving[0] }}</td>
             </tr>
           {% endfor %}
         </tbody>
       </table>
     {% else %}
-      <!-- Message if no savings are available -->
-      <p class="text-muted">No savings recorded.</p>
+      <p class="text-muted text-center">No savings recorded.</p>
     {% endif %}
-    <!-- Back to dashboard link -->
-    <a href="/dashboard" class="btn btn-secondary mt-3">Back</a>
+    <a href="/dashboard" class="btn btn-secondary w-100 mt-3">Back</a>
   </div>
 </body>
 </html>
@@ -143,21 +188,34 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <!-- Page title for the loan application page -->
-  <title>Loan Application</title>
-  <!-- Bootstrap CSS for styling -->
+  <title>Loan Application - Energy Commission of Nigeria</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { background-color: #f8f9fa; font-family: Arial, sans-serif; }
+    .header { background-color: #008000; color: white; padding: 10px 0; text-align: center; }
+    .header img { height: 50px; margin: 0 10px; }
+    .container { max-width: 800px; margin-top: 20px; }
+    .welcome-section { text-align: center; margin-bottom: 20px; }
+    .welcome-section img { max-width: 100%; height: auto; }
+    table { background-color: white; }
+  </style>
 </head>
 <body>
-  <div class="container mt-4">
-    <!-- Section for loan application form -->
-    <h2>Apply for a Loan</h2>
-    <!-- Display error message if form submission fails -->
+  <div class="header">
+    <img src="https://energy.gov.ng/wp-content/uploads/2023/05/ECN-Logo.png" alt="ECN Logo" class="ecn-logo">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/7/79/Coat_of_arms_of_Nigeria.svg" alt="Nigerian Coat of Arms" class="coat-of-arms">
+    <h1>Energy Commission of Nigeria</h1>
+  </div>
+  <div class="container">
+    <div class="welcome-section">
+      <h2>Apply for a Loan</h2>
+      <p>Submit your loan application.</p>
+      <img src="https://energy.gov.ng/wp-content/uploads/2023/05/thermal-energy-generation.jpg" alt="Thermal Energy Generation" class="img-fluid">
+    </div>
     {% if error %}
-      <p class="text-danger">{{ error }}</p>
+      <p class="text-danger text-center">{{ error }}</p>
     {% endif %}
-    <!-- Loan application form -->
-    <form method="POST">
+    <form method="POST" class="p-4 border rounded bg-white">
       <div class="mb-3">
         <label for="type_of_loan" class="form-label">Type of Loan</label>
         <input type="text" name="type_of_loan" class="form-control" required>
@@ -230,21 +288,18 @@
         <label for="guarantor2_phone_no" class="form-label">Guarantor 2 Phone No</label>
         <input type="text" name="guarantor2_phone_no" class="form-control" required>
       </div>
-      <button type="submit" class="btn btn-primary">Apply</button>
+      <button type="submit" class="btn btn-primary w-100">Apply</button>
     </form>
 
-    <!-- Section for displaying loan history -->
-    <h2 class="mt-5">Loan History</h2>
+    <h2 class="mt-5">Loan Repayment Schedule</h2>
     {% if loan_history %}
       <table class="table table-bordered">
         <thead>
           <tr>
             <th>Loan Type</th>
             <th>Amount (₦)</th>
-            <th>Duration (Months)</th>
-            <th>Date Applied</th>
+            <th>Due Date</th>
             <th>Status</th>
-            <th>Amount Owing (₦)</th>
           </tr>
         </thead>
         <tbody>
@@ -252,26 +307,16 @@
             <tr>
               <td>{{ loan.type_of_loan }}</td>
               <td>{{ loan.amount }}</td>
-              <td>{{ loan.duration }}</td>
               <td>{{ loan.date }}</td>
-              <td>{{ loan.status | capitalize }}</td>
-              <td>
-                {% if loan.amount_owing is not none %}
-                  {{ loan.amount_owing }}
-                {% else %}
-                  N/A
-                {% endif %}
-              </td>
+              <td>{{ loan.status }}</td>
             </tr>
           {% endfor %}
         </tbody>
       </table>
     {% else %}
-      <!-- Message if no loan history is available -->
-      <p class="text-muted">No loan history available.</p>
+      <p class="text-muted text-center">No repayment schedule available.</p>
     {% endif %}
-    <!-- Back to dashboard link -->
-    <a href="/dashboard" class="btn btn-secondary mt-3">Back</a>
+    <a href="/dashboard" class="btn btn-secondary w-100 mt-3">Back</a>
   </div>
 </body>
 </html>
@@ -281,16 +326,30 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <!-- Page title for the repayments page -->
-  <title>Repayments</title>
-  <!-- Bootstrap CSS for styling -->
+  <title>Repayments - Energy Commission of Nigeria</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { background-color: #f8f9fa; font-family: Arial, sans-serif; }
+    .header { background-color: #008000; color: white; padding: 10px 0; text-align: center; }
+    .header img { height: 50px; margin: 0 10px; }
+    .container { max-width: 800px; margin-top: 20px; }
+    .welcome-section { text-align: center; margin-bottom: 20px; }
+    .welcome-section img { max-width: 100%; height: auto; }
+    table { background-color: white; }
+  </style>
 </head>
 <body>
-  <div class="container mt-4">
-    <!-- Page heading -->
-    <h2>Your Repayments</h2>
-    <!-- Display repayments table -->
+  <div class="header">
+    <img src="https://energy.gov.ng/wp-content/uploads/2023/05/ECN-Logo.png" alt="ECN Logo" class="ecn-logo">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/7/79/Coat_of_arms_of_Nigeria.svg" alt="Nigerian Coat of Arms" class="coat-of-arms">
+    <h1>Energy Commission of Nigeria</h1>
+  </div>
+  <div class="container">
+    <div class="welcome-section">
+      <h2>Your Repayments</h2>
+      <p>View and manage your repayment schedule.</p>
+      <img src="https://energy.gov.ng/wp-content/uploads/2023/05/thermal-energy-generation.jpg" alt="Thermal Energy Generation" class="img-fluid">
+    </div>
     {% if repayments %}
       <table class="table table-bordered">
         <thead>
@@ -304,8 +363,8 @@
         <tbody>
           {% for repayment in repayments %}
             <tr>
-              <td>{{ repayment[1] }}</td> <!-- Due Date -->
-              <td>{{ repayment[2] }}</td> <!-- Amount -->
+              <td>{{ repayment[1] }}</td>
+              <td>{{ repayment[2] }}</td>
               <td>
                 {% if repayment[3] == 1 %}
                   Paid
@@ -325,11 +384,9 @@
         </tbody>
       </table>
     {% else %}
-      <!-- Message if no repayments are available -->
-      <p class="text-muted">No repayments due.</p>
+      <p class="text-muted text-center">No repayments due.</p>
     {% endif %}
-    <!-- Back to dashboard link -->
-    <a href="/dashboard" class="btn btn-secondary mt-3">Back</a>
+    <a href="/dashboard" class="btn btn-secondary w-100 mt-3">Back</a>
   </div>
 </body>
 </html>
@@ -339,21 +396,35 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <!-- Page title for the admin dashboard -->
-  <title>Admin Dashboard</title>
-  <!-- Bootstrap CSS for styling -->
+  <title>Admin Dashboard - Energy Commission of Nigeria</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { background-color: #f8f9fa; font-family: Arial, sans-serif; }
+    .header { background-color: #008000; color: white; padding: 10px 0; text-align: center; }
+    .header img { height: 50px; margin: 0 10px; }
+    .container { max-width: 600px; margin-top: 20px; }
+    .welcome-section { text-align: center; margin-bottom: 20px; }
+    .welcome-section img { max-width: 100%; height: auto; }
+  </style>
 </head>
 <body>
-  <div class="container mt-4">
-    <!-- Page heading -->
-    <h2>Admin Dashboard</h2>
-    <!-- Navigation links for admin functionalities -->
+  <div class="header">
+    <img src="https://energy.gov.ng/wp-content/uploads/2023/05/ECN-Logo.png" alt="ECN Logo" class="ecn-logo">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/7/79/Coat_of_arms_of_Nigeria.svg" alt="Nigerian Coat of Arms" class="coat-of-arms">
+    <h1>Energy Commission of Nigeria</h1>
+  </div>
+  <div class="container">
+    <div class="welcome-section">
+      <h2>Admin Dashboard</h2>
+      <p>Manage staff and loan approvals.</p>
+      <img src="https://energy.gov.ng/wp-content/uploads/2023/05/thermal-energy-generation.jpg" alt="Thermal Energy Generation" class="img-fluid">
+    </div>
     <div class="mt-3">
-      <a href="/add_savings" class="btn btn-primary">Add Savings</a>
-      <a href="/users" class="btn btn-primary">View Users</a>
-      <a href="/approve_loans" class="btn btn-primary">Approve Loans</a>
-      <a href="/dashboard" class="btn btn-secondary">Back to Dashboard</a>
+      <a href="/add_savings" class="btn btn-primary w-100 mb-2">Add Savings</a>
+      <a href="/users" class="btn btn-primary w-100 mb-2">View Users</a>
+      <a href="/approve_loans" class="btn btn-primary w-100 mb-2">Approve Loans</a>
+      <a href="/mark_staff_repayment" class="btn btn-primary w-100 mb-2">Mark Staff Repayment</a>
+      <a href="/dashboard" class="btn btn-secondary w-100">Back to Dashboard</a>
     </div>
   </div>
 </body>
@@ -364,21 +435,33 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <!-- Page title for the add savings page -->
-  <title>Add Savings</title>
-  <!-- Bootstrap CSS for styling -->
+  <title>Add Savings - Energy Commission of Nigeria</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { background-color: #f8f9fa; font-family: Arial, sans-serif; }
+    .header { background-color: #008000; color: white; padding: 10px 0; text-align: center; }
+    .header img { height: 50px; margin: 0 10px; }
+    .container { max-width: 600px; margin-top: 20px; }
+    .welcome-section { text-align: center; margin-bottom: 20px; }
+    .welcome-section img { max-width: 100%; height: auto; }
+  </style>
 </head>
 <body>
-  <div class="container mt-4">
-    <!-- Page heading -->
-    <h2>Add Savings</h2>
-    <!-- Display error message if form submission fails -->
+  <div class="header">
+    <img src="https://energy.gov.ng/wp-content/uploads/2023/05/ECN-Logo.png" alt="ECN Logo" class="ecn-logo">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/7/79/Coat_of_arms_of_Nigeria.svg" alt="Nigerian Coat of Arms" class="coat-of-arms">
+    <h1>Energy Commission of Nigeria</h1>
+  </div>
+  <div class="container">
+    <div class="welcome-section">
+      <h2>Add Savings</h2>
+      <p>Add savings for staff members.</p>
+      <img src="https://energy.gov.ng/wp-content/uploads/2023/05/thermal-energy-generation.jpg" alt="Thermal Energy Generation" class="img-fluid">
+    </div>
     {% if error %}
-      <p class="text-danger">{{ error }}</p>
+      <p class="text-danger text-center">{{ error }}</p>
     {% endif %}
-    <!-- Form to add savings -->
-    <form method="POST">
+    <form method="POST" class="p-4 border rounded bg-white">
       <div class="mb-3">
         <label for="staff_id" class="form-label">Staff ID</label>
         <select name="staff_id" class="form-control" required>
@@ -392,10 +475,9 @@
         <label for="amount" class="form-label">Amount (₦)</label>
         <input type="number" name="amount" class="form-control" required>
       </div>
-      <button type="submit" class="btn btn-primary">Add Savings</button>
+      <button type="submit" class="btn btn-primary w-100">Add Savings</button>
     </form>
-    <!-- Back to admin dashboard link -->
-    <a href="/admin" class="btn btn-secondary mt-3">Back</a>
+    <a href="/admin" class="btn btn-secondary w-100 mt-3">Back</a>
   </div>
 </body>
 </html>
@@ -405,16 +487,30 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <!-- Page title for the users page -->
-  <title>Users</title>
-  <!-- Bootstrap CSS for styling -->
+  <title>Users - Energy Commission of Nigeria</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { background-color: #f8f9fa; font-family: Arial, sans-serif; }
+    .header { background-color: #008000; color: white; padding: 10px 0; text-align: center; }
+    .header img { height: 50px; margin: 0 10px; }
+    .container { max-width: 800px; margin-top: 20px; }
+    .welcome-section { text-align: center; margin-bottom: 20px; }
+    .welcome-section img { max-width: 100%; height: auto; }
+    table { background-color: white; }
+  </style>
 </head>
 <body>
-  <div class="container mt-4">
-    <!-- Page heading -->
-    <h2>Users</h2>
-    <!-- Display users table -->
+  <div class="header">
+    <img src="https://energy.gov.ng/wp-content/uploads/2023/05/ECN-Logo.png" alt="ECN Logo" class="ecn-logo">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/7/79/Coat_of_arms_of_Nigeria.svg" alt="Nigerian Coat of Arms" class="coat-of-arms">
+    <h1>Energy Commission of Nigeria</h1>
+  </div>
+  <div class="container">
+    <div class="welcome-section">
+      <h2>Users</h2>
+      <p>View all registered users.</p>
+      <img src="https://energy.gov.ng/wp-content/uploads/2023/05/thermal-energy-generation.jpg" alt="Thermal Energy Generation" class="img-fluid">
+    </div>
     {% if users %}
       <table class="table table-bordered">
         <thead>
@@ -426,18 +522,16 @@
         <tbody>
           {% for user in users %}
             <tr>
-              <td>{{ user[0] }}</td> <!-- User ID -->
-              <td>{{ user[1] }}</td> <!-- User Name -->
+              <td>{{ user[0] }}</td>
+              <td>{{ user[1] }}</td>
             </tr>
           {% endfor %}
         </tbody>
       </table>
     {% else %}
-      <!-- Message if no users are available -->
-      <p class="text-muted">No users found.</p>
+      <p class="text-muted text-center">No users found.</p>
     {% endif %}
-    <!-- Back to admin dashboard link -->
-    <a href="/admin" class="btn btn-secondary mt-3">Back</a>
+    <a href="/admin" class="btn btn-secondary w-100 mt-3">Back</a>
   </div>
 </body>
 </html>
@@ -447,15 +541,30 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <!-- Page title for the approve loans page -->
-  <title>Approve Loans</title>
-  <!-- Bootstrap CSS for styling -->
+  <title>Approve Loans - Energy Commission of Nigeria</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { background-color: #f8f9fa; font-family: Arial, sans-serif; }
+    .header { background-color: #008000; color: white; padding: 10px 0; text-align: center; }
+    .header img { height: 50px; margin: 0 10px; }
+    .container { max-width: 1200px; margin-top: 20px; }
+    .welcome-section { text-align: center; margin-bottom: 20px; }
+    .welcome-section img { max-width: 100%; height: auto; }
+    table { background-color: white; }
+  </style>
 </head>
 <body>
-  <div class="container mt-4">
-    <!-- Section for pending loan applications -->
-    <h2>Pending Loan Applications</h2>
+  <div class="header">
+    <img src="https://energy.gov.ng/wp-content/uploads/2023/05/ECN-Logo.png" alt="ECN Logo" class="ecn-logo">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/7/79/Coat_of_arms_of_Nigeria.svg" alt="Nigerian Coat of Arms" class="coat-of-arms">
+    <h1>Energy Commission of Nigeria</h1>
+  </div>
+  <div class="container">
+    <div class="welcome-section">
+      <h2>Pending Loan Applications</h2>
+      <p>Review and approve or reject loan applications.</p>
+      <img src="https://energy.gov.ng/wp-content/uploads/2023/05/thermal-energy-generation.jpg" alt="Thermal Energy Generation" class="img-fluid">
+    </div>
     {% if pending_applications %}
       <table class="table table-bordered">
         <thead>
@@ -484,26 +593,25 @@
         <tbody>
           {% for app in pending_applications %}
             <tr>
-              <td>{{ app[11] }}</td> <!-- u.name -->
-              <td>{{ app[2] }}</td> <!-- l.amount -->
-              <td>{{ app[3] }}</td> <!-- l.duration -->
-              <td>{{ app[4] }}</td> <!-- l.ecn_staff_no -->
-              <td>{{ app[5] }}</td> <!-- l.ippis_no -->
-              <td>{{ app[6] }}</td> <!-- l.designation -->
-              <td>{{ app[7] }}</td> <!-- l.phone_no -->
-              <td>{{ app[8] }}</td> <!-- l.bank_name -->
-              <td>{{ app[9] }}</td> <!-- l.account_no -->
-              <td>{{ app[10] }}</td> <!-- l.previous_month_salary -->
-              <td>{{ app[12] }}</td> <!-- l.guarantor1_name -->
-              <td>{{ app[13] }}</td> <!-- l.guarantor1_staff_no -->
-              <td>{{ app[14] }}</td> <!-- l.guarantor1_designation -->
-              <td>{{ app[15] }}</td> <!-- l.guarantor1_phone_no -->
-              <td>{{ app[16] }}</td> <!-- l.guarantor2_name -->
-              <td>{{ app[17] }}</td> <!-- l.guarantor2_staff_no -->
-              <td>{{ app[18] }}</td> <!-- l.guarantor2_designation -->
-              <td>{{ app[19] }}</td> <!-- l.guarantor2_phone_no -->
+              <td>{{ app[11] }}</td>
+              <td>{{ app[2] }}</td>
+              <td>{{ app[3] }}</td>
+              <td>{{ app[4] }}</td>
+              <td>{{ app[5] }}</td>
+              <td>{{ app[6] }}</td>
+              <td>{{ app[7] }}</td>
+              <td>{{ app[8] }}</td>
+              <td>{{ app[9] }}</td>
+              <td>{{ app[10] }}</td>
+              <td>{{ app[12] }}</td>
+              <td>{{ app[13] }}</td>
+              <td>{{ app[14] }}</td>
+              <td>{{ app[15] }}</td>
+              <td>{{ app[16] }}</td>
+              <td>{{ app[17] }}</td>
+              <td>{{ app[18] }}</td>
+              <td>{{ app[19] }}</td>
               <td>
-                <!-- Approve and reject buttons -->
                 <a href="/approve/{{ app[0] }}" class="btn btn-sm btn-success">Approve</a>
                 <a href="/reject/{{ app[0] }}" class="btn btn-sm btn-danger">Reject</a>
               </td>
@@ -512,11 +620,9 @@
         </tbody>
       </table>
     {% else %}
-      <!-- Message if no pending applications -->
-      <p class="text-muted">No pending loan applications.</p>
+      <p class="text-muted text-center">No pending loan applications.</p>
     {% endif %}
 
-    <!-- Section for approved loans -->
     <h2 class="mt-5">Approved Loans</h2>
     {% if approved_loans %}
       <table class="table table-bordered">
@@ -538,18 +644,17 @@
         <tbody>
           {% for loan in approved_loans %}
             <tr>
-              <td>{{ loan[11] }}</td> <!-- u.name -->
-              <td>{{ loan[2] }}</td> <!-- l.amount -->
-              <td>{{ loan[3] }}</td> <!-- l.duration -->
-              <td>{{ loan[4] }}</td> <!-- l.ecn_staff_no -->
-              <td>{{ loan[5] }}</td> <!-- l.ippis_no -->
-              <td>{{ loan[6] }}</td> <!-- l.designation -->
-              <td>{{ loan[7] }}</td> <!-- l.phone_no -->
-              <td>{{ loan[8] }}</td> <!-- l.bank_name -->
-              <td>{{ loan[9] }}</td> <!-- l.account_no -->
-              <td>{{ loan[10] }}</td> <!-- l.previous_month_salary -->
+              <td>{{ loan[11] }}</td>
+              <td>{{ loan[2] }}</td>
+              <td>{{ loan[3] }}</td>
+              <td>{{ loan[4] }}</td>
+              <td>{{ loan[5] }}</td>
+              <td>{{ loan[6] }}</td>
+              <td>{{ loan[7] }}</td>
+              <td>{{ loan[8] }}</td>
+              <td>{{ loan[9] }}</td>
+              <td>{{ loan[10] }}</td>
               <td>
-                <!-- Edit details button -->
                 <a href="/loan_approval_details/{{ loan[0] }}" class="btn btn-sm btn-primary">Edit Details</a>
               </td>
             </tr>
@@ -557,38 +662,47 @@
         </tbody>
       </table>
     {% else %}
-      <!-- Message if no approved loans -->
-      <p class="text-muted">No approved loans.</p>
+      <p class="text-muted text-center">No approved loans.</p>
     {% endif %}
-    <!-- Back to admin dashboard link -->
-    <a href="/admin" class="btn btn-secondary mt-3">Back</a>
+    <a href="/admin" class="btn btn-secondary w-100 mt-3">Back</a>
   </div>
 </body>
 </html>
 <!-- END: approve_loans.html -->
 
-
 <!-- BEGIN: loan_approval_details.html -->
 <!DOCTYPE html>
 <html>
 <head>
-  <!-- Page title for the loan details editing page -->
-  <title>Edit Loan Details</title>
-  <!-- Bootstrap CSS for styling -->
+  <title>Edit Loan Details - Energy Commission of Nigeria</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { background-color: #f8f9fa; font-family: Arial, sans-serif; }
+    .header { background-color: #008000; color: white; padding: 10px 0; text-align: center; }
+    .header img { height: 50px; margin: 0 10px; }
+    .container { max-width: 600px; margin-top: 20px; }
+    .welcome-section { text-align: center; margin-bottom: 20px; }
+    .welcome-section img { max-width: 100%; height: auto; }
+  </style>
 </head>
 <body>
-  <div class="container mt-4">
-    <!-- Page heading -->
-    <h2>Edit Loan Details</h2>
-    <!-- Display loan details -->
+  <div class="header">
+    <img src="https://energy.gov.ng/wp-content/uploads/2023/05/ECN-Logo.png" alt="ECN Logo" class="ecn-logo">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/7/79/Coat_of_arms_of_Nigeria.svg" alt="Nigerian Coat of Arms" class="coat-of-arms">
+    <h1>Energy Commission of Nigeria</h1>
+  </div>
+  <div class="container">
+    <div class="welcome-section">
+      <h2>Edit Loan Details</h2>
+      <p>Modify the details of the approved loan.</p>
+      <img src="https://energy.gov.ng/wp-content/uploads/2023/05/thermal-energy-generation.jpg" alt="Thermal Energy Generation" class="img-fluid">
+    </div>
     <p>Loan ID: {{ loan[0] }}</p>
     <p>User ID: {{ loan[1] }}</p>
     <p>Type of Loan: {{ loan[2] }}</p>
     <p>Requested Amount: ₦{{ loan[3] }}</p>
     <p>Duration: {{ loan[4] }} months</p>
-    <!-- Form to edit loan details -->
-    <form method="POST">
+    <form method="POST" class="p-4 border rounded bg-white">
       <div class="mb-3">
         <label for="amount_approved" class="form-label">Approved Amount (₦)</label>
         <input type="number" name="amount_approved" class="form-control" value="{{ loan[15] }}" required>
@@ -601,10 +715,66 @@
         <label for="total_amount" class="form-label">Total Amount to Repay (₦)</label>
         <input type="number" name="total_amount" class="form-control" value="{{ loan[17] }}" required>
       </div>
-      <button type="submit" class="btn btn-primary">Save Changes</button>
-      <a href="/approve_loans" class="btn btn-secondary">Cancel</a>
+      <button type="submit" class="btn btn-primary w-100">Save Changes</button>
+      <a href="/approve_loans" class="btn btn-secondary w-100 mt-2">Cancel</a>
     </form>
   </div>
 </body>
 </html>
 <!-- END: loan_approval_details.html -->
+
+<!-- BEGIN: mark_staff_repayment.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Mark Staff Repayment - Energy Commission of Nigeria</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { background-color: #f8f9fa; font-family: Arial, sans-serif; }
+    .header { background-color: #008000; color: white; padding: 10px 0; text-align: center; }
+    .header img { height: 50px; margin: 0 10px; }
+    .container { max-width: 600px; margin-top: 20px; }
+    .welcome-section { text-align: center; margin-bottom: 20px; }
+    .welcome-section img { max-width: 100%; height: auto; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <img src="https://energy.gov.ng/wp-content/uploads/2023/05/ECN-Logo.png" alt="ECN Logo" class="ecn-logo">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/7/79/Coat_of_arms_of_Nigeria.svg" alt="Nigerian Coat of Arms" class="coat-of-arms">
+    <h1>Energy Commission of Nigeria</h1>
+  </div>
+  <div class="container">
+    <div class="welcome-section">
+      <h2>Mark Staff Repayment</h2>
+      <p>Mark repayments as paid for staff members.</p>
+      <img src="https://energy.gov.ng/wp-content/uploads/2023/05/thermal-energy-generation.jpg" alt="Thermal Energy Generation" class="img-fluid">
+    </div>
+    <form method="POST" class="p-4 border rounded bg-white">
+      <div class="mb-3">
+        <label for="staff_id" class="form-label">Select Staff</label>
+        <select name="staff_id" class="form-control" required>
+          <option value="">Select Staff</option>
+          {% for user in users %}
+            <option value="{{ user[0] }}">{{ user[1] }} (ID: {{ user[0] }})</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="mb-3">
+        <label for="repayment_id" class="form-label">Select Repayment</label>
+        <select name="repayment_id" class="form-control" required>
+          <option value="">Select Repayment</option>
+          {% for user_id, repayments in repayments_data.items() %}
+            {% for repayment in repayments %}
+              <option value="{{ repayment[0] }}">Staff ID: {{ user_id }} - Due: {{ repayment[1] }} - Amount: ₦{{ repayment[2] }}</option>
+            {% endfor %}
+          {% endfor %}
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary w-100">Mark as Paid</button>
+    </form>
+    <a href="/admin" class="btn btn-secondary w-100 mt-3">Back</a>
+  </div>
+</body>
+</html>
+<!-- END: mark_staff_repayment.html -->
